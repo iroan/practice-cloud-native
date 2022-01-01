@@ -27,4 +27,9 @@ function miniDocker() {
     # showIPC
 }
 
+function debugCgroup(){
+    mount -t cgroup    
+    cd /sys/fs/cgroup/cpu/
+    sudo mkdir wkx-demo
+}
 $@
