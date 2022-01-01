@@ -14,6 +14,8 @@ function showIPC() {
 function envDiff() {
     uname -a
     showIPC
+    # top
+    # echo $$
 }
 
 function miniDocker() {
