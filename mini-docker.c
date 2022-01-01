@@ -26,7 +26,7 @@ int container_main(void *arg) {
 
 int main(int argc, char const *argv[]) {
   INFO("parent\n");
-  int container_pid = clone(container_main, container_stack + STACK_SIZE, CLONE_NEWUTS | SIGCHLD, NULL);
+  int container_pid = clone(container_main, container_stack + STACK_SIZE, CLONE_NEWUTS | CLONE_NEWIPC | SIGCHLD, NULL);
   waitpid(container_pid, NULL, 0);
   INFO("stop\n");
   return 0;
