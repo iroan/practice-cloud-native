@@ -1,0 +1,45 @@
+version: '3'
+services:
+  server1:
+    image: nginx:1.21.6-alpine
+    volumes:
+      - type: bind
+        source: ./page1.html
+        target: /usr/share/nginx/html/index.html
+    ports:
+      - 8989:80
+    networks:
+      - cloud_native
+  server2:
+    image: nginx:1.21.6-alpine
+    volumes:
+      - type: bind
+        source: ./page2.html
+        target: /usr/share/nginx/html/index.html
+    ports:
+      - 8990:80
+    networks:
+      - cloud_native
+  server3:
+    image: nginx:1.21.6-alpine
+    volumes:
+      - type: bind
+        source: ./page3.html
+        target: /usr/share/nginx/html/index.html
+    ports:
+      - 8991:80
+    networks:
+      - cloud_native
+  server4:
+    image: nginx:1.21.6-alpine
+    volumes:
+      - type: bind
+        source: ./page4.html
+        target: /usr/share/nginx/html/index.html
+    ports:
+      - 8992:80
+    networks:
+      - cloud_native
+networks:
+  cloud_native:
+    external: true
