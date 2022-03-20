@@ -1,0 +1,67 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  labels:
+    app: linux60-nginx-deployment-label
+  name: linux60-nginx-deployment
+  namespace: linux60
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: linux60-nginx-selector
+  template:
+    metadata:
+      labels:
+        app: linux60-nginx-selector
+    spec:
+      containers:
+      - name: linux60-nginx-container
+        image: nginx
+        #command: ["/apps/tomcat/bin/run_tomcat.sh"]
+        #imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+          protocol: TCP
+          name: http
+        - containerPort: 443
+          protocol: TCP
+          name: https
+        env:
+        - name: "password"
+          value: "123456"
+        - name: "age"
+          value: "18"
+#        resources:
+#          limits:
+#            cpu: 2
+#            memory: 2Gi
+#          requests:
+#            cpu: 500m
+#            memory: 1Gi
+
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  labels:
+    app: linux60-nginx-service-label
+  name: linux60-nginx-service
+  namespace: linux60
+spec:
+  type: NodePort
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: 80
+    nodePort: 30004
+  - name: https
+    port: 443
+    protocol: TCP
+    targetPort: 443
+    nodePort: 30443
+  selector:
+    app: linux60-nginx-selector

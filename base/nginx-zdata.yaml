@@ -1,0 +1,57 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  labels:
+    app: nginx-deployment-label
+  name: nginx-deployment
+  namespace: zdata
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx-selector
+  template:
+    metadata:
+      labels:
+        app: nginx-selector
+    spec:
+      containers:
+      - name: nginx-container
+        image: nginx
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+          protocol: TCP
+          name: http
+        - containerPort: 443
+          protocol: TCP
+          name: https
+        env:
+        - name: "password"
+          value: "123456"
+        - name: "age"
+          value: "18"
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  labels:
+    app: nginx-service-label
+  name: nginx-service
+  namespace: zdata
+spec:
+  type: NodePort
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: 80
+    nodePort: 30005
+  - name: https
+    port: 443
+    protocol: TCP
+    targetPort: 443
+    nodePort: 30444
+  selector:
+    app: nginx-selector
