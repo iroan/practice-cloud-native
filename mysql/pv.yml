@@ -5,20 +5,20 @@ metadata:
   labels:
     type: local
 spec:
-  storageClassName: manual
   capacity:
     storage: 20Gi
   accessModes:
     - ReadWriteOnce
-  hostPath:
-    path: "/mnt/data/playground/practice-cloud-native/tmp"
+  nfs:
+    path: "/mnt/870-evo/tmp1"
+    server: 192.168.50.62 
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: mysql-pv-claim
 spec:
-  storageClassName: manual
+  volumeName: mysql-pv-volume
   accessModes:
     - ReadWriteOnce
   resources:
